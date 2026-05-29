@@ -283,7 +283,7 @@ h2{font-family:var(--serif);font-weight:500;line-height:.96;letter-spacing:-.025
 
 <!-- 1 HERO -->
 <section id="hero" data-name="Интро">
-  <video class="hero-vid" id="heroVid" autoplay muted loop playsinline webkit-playsinline disablepictureinpicture disableremoteplayback x5-playsinline x5-video-player-type="h5"><source src="https://d8j0ntlcm91z4.cloudfront.net/user_2zDkBPOpxdTkHHdxdtEt4LRtS0P/hf_20260529_115724_3ec4a37d-d2f2-444e-b347-813371345e00.mp4" type="video/mp4"></video>
+  <img class="hero-vid" src="hero.webp" alt="" decoding="async" fetchpriority="high">
   <div class="content">
     <div class="kicker reveal">Методика фотобиомодуляции Heleo4®</div>
     <h1><span class="word">Свет.</span> <span class="word" style="color:var(--brand)">Клетка.</span><br><span class="word">Результат.</span></h1>
@@ -476,20 +476,7 @@ ScrollTrigger.defaults({scroller:scroller});
 const isTouch = matchMedia('(hover:none), (pointer:coarse)').matches;
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* hero video: iOS Safari требует muted+playsinline + программный play() */
-(() => {
-  const v = document.getElementById('heroVid');
-  if(!v) return;
-  v.muted = true; v.defaultMuted = true;
-  v.setAttribute('muted','');
-  const tryPlay = () => v.play().catch(()=>{});
-  if(v.readyState >= 2) tryPlay(); else v.addEventListener('loadeddata', tryPlay, {once:true});
-  /* если autoplay заблокирован (Low Power Mode и т.п.) — играем на первом тапе/скролле */
-  const kick = () => { tryPlay(); ['touchstart','click','scroll'].forEach(ev=>document.removeEventListener(ev,kick,true)); };
-  ['touchstart','click','scroll'].forEach(ev=>document.addEventListener(ev,kick,{capture:true,passive:true,once:false}));
-  /* если совсем не получилось — прячем элемент, остаётся градиент-фон */
-  v.addEventListener('error', ()=>{ v.style.display='none'; });
-})();
+/* hero: animated WebP — браузер крутит как картинку, autoplay не нужен */
 
 /* cursor — desktop only */
 const cur=document.getElementById('cur');
